@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>Chart</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body style="margin:0; background-color:white;">
+<canvas id="myChart" width="100%" height="100%"></canvas>
+<script>
+    const ctx = document.getElementById('myChart').getContext('2d');
+    window.myChart = new Chart(ctx, {
+        type: 'line',
+        data: {
+            labels: [],
+            datasets: [{
+                label: 'Live-Daten',
+                data: [],
+                fill: false,
+                borderColor: 'rgb(75, 192, 192)',
+                tension: 0.1
+            }]
+        },
+        options: {
+            animation: false,
+            scales: {
+                x: { title: { display: true, text: 'Zeit' } },
+                y: { title: { display: true, text: 'Wert' }, min: 0, max: 100 }
+            }
+        }
+    });
+
+    window.addData = function(y) {
+        const chart = window.myChart;
+        const x = chart.data.labels.length;
+        if (x >= 28) {
+            chart.data.labels.shift();
+            chart.data.datasets[0].data.shift();
+        }
+        chart.data.labels.push(x);
+        chart.data.datasets[0].data.push(y);
+        chart.update();
+    };
+</script>
+</body>
+</html>
